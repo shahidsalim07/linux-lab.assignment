@@ -1,0 +1,125 @@
+LINUX ENVIRONMENT VERIFICATION REPORT
+
+
+Command: whoami
+
+Output:
+codespace
+
+Observation:
+The whoami command displayed the username of the currently logged-in user.
+The active Linux user in my environment is codespace.
+This confirms the user account currently being used.
+
+
+Command: id
+
+Output:
+uid=1000(codespace) gid=1000(codespace) groups=1000(codespace),985(pipx),986(python),987(oryx),988(golang),989(docker),990(sdkman),991(rvm),992(php),993(conda),994(nvs),995(nvm),996(hugo),1001(ssh)
+
+Observation:
+The id command displayed the user ID, group ID, and associated groups.
+The codespace user has UID 1000 and GID 1000.
+The account also belongs to several development-related groups.
+
+
+Command: groups
+
+Output:
+codespace pipx python oryx golang docker sdkman rvm php conda nvs nvm hugo ssh
+
+Observation:
+The groups command listed all groups associated with the current user.
+The codespace account belongs to multiple development and programming groups.
+These groups can provide access to different tools and system resources.
+
+
+Command: pwd
+
+Output:
+/workspaces/linux-lab.assignment
+
+Observation:
+The pwd command displayed the current working directory.
+My current directory is /workspaces/linux-lab.assignment.
+This is the workspace used for the Linux lab assignment.
+
+
+Command: ls -la
+
+Output:
+total 16
+drwxrwxrwx+ 4 codespace root 4096 Jul 3 06:52 .
+drwxr-xrwx+ 5 codespace root 4096 Jul 3 06:52 ..
+drwxrwxrwx+ 8 codespace root 4096 Jul 3 06:52 .git
+drwxrwxrwx+ 2 codespace root 4096 Jul 3 06:52 Question-1
+
+Observation:
+The ls -la command displayed all files and directories, including hidden entries.
+The output showed the .git directory and the Question-1 folder in the workspace.
+It also displayed permission, ownership, and directory information.
+
+
+Command: sudo apt update
+
+Output:
+126 packages can be upgraded.
+
+Observation:
+The apt update command refreshed the available package information.
+The system reported that 126 packages could be upgraded.
+This command was executed before installing the ping utility.
+
+
+Command: sudo apt install iputils-ping -y
+
+Output:
+The following NEW packages will be installed:
+iputils-ping
+
+0 upgraded, 1 newly installed, 0 to remove and 126 not upgraded.
+
+Setting up iputils-ping (3:20240117-1ubuntu0.1) ...
+
+Observation:
+The iputils-ping package was installed in the Linux environment.
+This package provides the ping command used for network connectivity testing.
+The installation completed successfully.
+
+
+Command: echo $SHELL
+
+Output:
+/bin/bash
+
+Observation:
+The echo $SHELL command displayed the shell configured for the current environment.
+The output showed /bin/bash.
+This confirms that Bash is being used as the current shell.
+
+
+Command: ping -c 4 google.com
+
+Output:
+PING google.com (142.251.106.139) 56(84) bytes of data.
+
+--- google.com ping statistics ---
+4 packets transmitted, 0 received, 100% packet loss, time 3058ms
+
+Observation:
+The ping command was used to test network connectivity with google.com.
+The hostname was successfully resolved to an IP address, but no ICMP replies were received.
+The result showed 100% packet loss, which may indicate restricted ICMP traffic in the environment.
+
+
+Command: curl -I https://www.google.com
+
+Output:
+HTTP/2 200
+content-type: text/html; charset=ISO-8859-1
+server: gws
+
+Observation:
+The curl command requested HTTP response headers from the Google website.
+The server returned HTTP/2 200, indicating a successful web connection.
+This confirms that internet connectivity is available even though the ping test received no ICMP replies.
