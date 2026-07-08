@@ -1,0 +1,205 @@
+SECURE PROJECT WORKSPACE REPORT
+
+
+Command: mkdir -p secure_project/docs secure_project/src secure_project/confidential
+
+Output:
+No output was displayed.
+
+Observation:
+This command created the secure_project directory with three subdirectories named docs, src, and confidential.
+The -p option allowed the directory structure to be created in a single command.
+
+
+Command: touch secure_project/docs/plan.txt secure_project/src/code.txt secure_project/confidential/secret.txt
+
+Output:
+No output was displayed.
+
+Observation:
+The touch command created three empty files in the project directories.
+The files created were plan.txt, code.txt, and secret.txt.
+
+
+Command: ls -l secure_project
+
+Output:
+total 12
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 confidential
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 docs
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 src
+
+Observation:
+The ls -l command displayed the directories inside secure_project.
+Initially, the three directories had very open permissions and were owned by user codespace and group codespace.
+
+
+Command: ls -ld secure_project secure_project/*
+
+Output:
+drwxrwxrwx+ 5 codespace codespace 4096 Jul 3 07:24 secure_project
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/confidential
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/docs
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/src
+
+Observation:
+This command displayed the permissions and ownership of the main project directory and its subdirectories.
+The initial permissions were very open, allowing read, write, and execute access to multiple users.
+
+
+Command: umask
+
+Output:
+0022
+
+Observation:
+The umask command displayed the current umask value as 0022.
+Umask controls the default permissions applied when new files and directories are created.
+
+
+Command: chmod 750 secure_project
+
+Output:
+No output was displayed.
+
+Observation:
+This command changed the main secure_project directory permission to 750.
+The owner has full access, the group has read and execute access, and other users have no access.
+
+
+Command: chmod 640 secure_project/confidential/secret.txt
+
+Output:
+No output was displayed.
+
+Observation:
+This command changed the permission of secret.txt to 640.
+The owner can read and write the file, the group can read it, and other users have no access.
+
+
+Command: ls -ld secure_project secure_project/*
+
+Output:
+drwxr-x---+ 5 codespace codespace 4096 Jul 3 07:24 secure_project
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/confidential
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/docs
+drwxrwxrwx+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/src
+
+Observation:
+The output confirmed that the main secure_project directory permission was changed successfully.
+The subdirectories were still using open permissions at this stage and required additional protection.
+
+
+Command: ls -l secure_project/confidential
+
+Output:
+total 0
+-rw-r----- 1 codespace codespace 0 Jul 3 07:24 secret.txt
+
+Observation:
+The output showed the permissions and ownership of secret.txt.
+The file had 640 permission and was owned by user codespace and group codespace.
+
+
+Command: stat secure_project/confidential/secret.txt
+
+Output:
+File: secure_project/confidential/secret.txt
+Size: 0
+Blocks: 0
+IO Block: 4096 regular empty file
+Device: 7,4
+Inode: 1310833
+Links: 1
+Access: (0640/-rw-r-----)
+Uid: (1000/codespace)
+Gid: (1000/codespace)
+
+Observation:
+The stat command displayed detailed metadata for secret.txt.
+The output confirmed inode number 1310833, one link, 0640 permissions, and ownership by the codespace user and group.
+
+
+Command: chmod 700 secure_project/confidential
+
+Output:
+No output was displayed.
+
+Observation:
+This command changed the confidential directory permission to 700.
+Only the owner can read, write, and access the directory, which protects sensitive project data.
+
+
+Command: chmod 750 secure_project/docs
+
+Output:
+No output was displayed.
+
+Observation:
+The docs directory permission was changed to 750.
+The owner has full access, the group has read and execute access, and others have no access.
+
+
+Command: chmod 750 secure_project/src
+
+Output:
+No output was displayed.
+
+Observation:
+The src directory permission was changed to 750.
+This restricted access to the source directory and prevented access by other users.
+
+
+Command: ls -ld secure_project secure_project/*
+
+Output:
+drwxr-x---+ 5 codespace codespace 4096 Jul 3 07:24 secure_project
+drwx------+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/confidential
+drwxr-x---+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/docs
+drwxr-x---+ 2 codespace codespace 4096 Jul 3 07:24 secure_project/src
+
+Observation:
+The final permissions showed that the project directories were successfully secured.
+The confidential directory had 700 permission, while the main project, docs, and src directories had 750 permission.
+
+
+Command: ls -l secure_project/confidential
+
+Output:
+total 0
+-rw-r----- 1 codespace codespace 0 Jul 3 07:24 secret.txt
+
+Observation:
+The confidential directory contained secret.txt with 640 permission.
+The file was owned by codespace and could not be accessed by other users.
+
+
+Command: stat secure_project/confidential/secret.txt
+
+Output:
+File: secure_project/confidential/secret.txt
+Size: 0
+Blocks: 0
+IO Block: 4096 regular empty file
+Device: 7,4
+Inode: 1310833
+Links: 1
+Access: (0640/-rw-r-----)
+Uid: (1000/codespace)
+Gid: (1000/codespace)
+Access: 2026-07-03 07:24:45.026502185 +0000
+Modify: 2026-07-03 07:24:45.026502185 +0000
+Change: 2026-07-03 07:25:48.440506282 +0000
+Birth: 2026-07-03 07:24:45.026502185 +0000
+
+Observation:
+The final stat output confirmed the file metadata, permissions, ownership, inode number, and timestamps.
+The secret.txt file retained 0640 permission and was owned by the codespace user and codespace group.
+
+
+PERMISSION PROTECTION EXPLANATION
+
+The project workspace was protected by restricting access with chmod.
+The confidential directory uses 700 permissions, so only the owner can access its contents.
+The docs and src directories use 750 permissions, allowing full owner access and limited group access.
+The secret.txt file uses 640 permissions, preventing other users from reading or modifying the confidential file.
