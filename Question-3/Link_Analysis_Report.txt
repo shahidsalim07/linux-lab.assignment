@@ -1,0 +1,194 @@
+FILE SYSTEM AND LINK ANALYSIS REPORT
+
+
+Command: mkdir link_lab
+
+Output:
+No output was displayed.
+
+Observation:
+The mkdir command created a new directory named link_lab.
+This directory was used to perform the file and link analysis experiment.
+
+
+Command: cd link_lab
+
+Output:
+No output was displayed.
+
+Observation:
+The cd command changed the current working directory to link_lab.
+All files and links for this experiment were created inside this directory.
+
+
+Command: echo "This is the original file" > original.txt
+
+Output:
+No terminal output was displayed.
+
+Observation:
+This command created original.txt and stored the text "This is the original file" in it.
+The > operator redirected the output of echo into the file.
+
+
+Command: ln original.txt hardlink.txt
+
+Output:
+No output was displayed.
+
+Observation:
+The ln command created a hard link named hardlink.txt.
+The hard link refers to the same inode and file data as original.txt.
+
+
+Command: ln -s original.txt symlink.txt
+
+Output:
+No output was displayed.
+
+Observation:
+The ln -s command created a symbolic link named symlink.txt.
+The symbolic link stores a reference to the pathname original.txt.
+
+
+Command: ls -li
+
+Output:
+total 8
+1310852 -rw-rw-rw- 2 codespace codespace 26 Jul 3 07:44 hardlink.txt
+1310852 -rw-rw-rw- 2 codespace codespace 26 Jul 3 07:44 original.txt
+1310853 lrwxrwxrwx 1 codespace codespace 12 Jul 3 07:45 symlink.txt -> original.txt
+
+Observation:
+The ls -li command displayed the inode numbers of the files and links.
+original.txt and hardlink.txt shared inode number 1310852, while symlink.txt had a separate inode number 1310853.
+This shows that the hard link refers to the same inode, but the symbolic link is a separate file.
+
+
+Command: stat original.txt
+
+Output:
+File: original.txt
+Size: 26
+Blocks: 8
+IO Block: 4096 regular file
+Device: 7,4
+Inode: 1310852
+Links: 2
+Access: (0666/-rw-rw-rw-)
+Uid: (1000/codespace)
+Gid: (1000/codespace)
+
+Observation:
+The stat command displayed detailed metadata for original.txt.
+The file used inode 1310852 and had a link count of 2.
+The link count confirms that two file names referred to the same inode.
+
+
+Command: stat hardlink.txt
+
+Output:
+File: hardlink.txt
+Size: 26
+Blocks: 8
+IO Block: 4096 regular file
+Device: 7,4
+Inode: 1310852
+Links: 2
+Access: (0666/-rw-rw-rw-)
+Uid: (1000/codespace)
+Gid: (1000/codespace)
+
+Observation:
+The metadata for hardlink.txt showed the same inode number 1310852 as original.txt.
+It also had the same size, permissions, ownership, and link count.
+This confirmed that original.txt and hardlink.txt refer to the same file data.
+
+
+Command: stat symlink.txt
+
+Output:
+File: symlink.txt -> original.txt
+Size: 12
+Blocks: 0
+IO Block: 4096 symbolic link
+Device: 7,4
+Inode: 1310853
+Links: 1
+Access: (0777/lrwxrwxrwx)
+Uid: (1000/codespace)
+Gid: (1000/codespace)
+
+Observation:
+The stat command showed that symlink.txt was a symbolic link pointing to original.txt.
+The symbolic link had its own inode number 1310853 and a link count of 1.
+Unlike the hard link, it stored a pathname reference to the original file.
+
+
+Command: cat original.txt
+Command: cat hardlink.txt
+Command: cat symlink.txt
+
+Output:
+This is the original file
+This is the original file
+This is the original file
+
+Observation:
+All three names initially displayed the same file content.
+The hard link accessed the shared inode data, while the symbolic link followed the path to original.txt.
+
+
+Command: rm original.txt
+
+Output:
+No output was displayed.
+
+Observation:
+The rm command removed the original.txt directory entry.
+The hard link and symbolic link were then tested to observe their behavior after deletion of the original file.
+
+
+Command: ls -li
+
+Output:
+total 4
+1310852 -rw-rw-rw- 1 codespace codespace 26 Jul 3 07:44 hardlink.txt
+1310853 lrwxrwxrwx 1 codespace codespace 12 Jul 3 07:45 symlink.txt -> original.txt
+
+Observation:
+After original.txt was deleted, hardlink.txt remained with inode number 1310852.
+Its link count changed from 2 to 1 because one directory entry was removed.
+The symbolic link remained visible but still pointed to the deleted original.txt path.
+
+
+Command: cat hardlink.txt
+
+Output:
+This is the original file
+
+Observation:
+The hard link continued to display the original file content after original.txt was deleted.
+The file data remained available because hardlink.txt still referred to inode 1310852.
+
+
+Command: cat symlink.txt
+
+Output:
+cat: symlink.txt: No such file or directory
+
+Observation:
+The symbolic link could no longer access its target after original.txt was deleted.
+It became a broken symbolic link because the pathname original.txt no longer existed.
+
+
+HARD LINK AND SYMBOLIC LINK COMPARISON
+
+A hard link directly refers to the same inode and file data as the original file.
+In this experiment, original.txt and hardlink.txt both used inode number 1310852.
+
+A symbolic link is a separate file that stores the pathname of another file.
+The symbolic link symlink.txt used inode number 1310853 and pointed to original.txt.
+
+After deleting original.txt, hardlink.txt continued to work because the inode data still existed.
+The symbolic link failed because its target pathname had been removed.
